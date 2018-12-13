@@ -1,4 +1,4 @@
-package giwi.org.networkgraph;
+package com.bramindra.kstpwithdiversity;
 
 import net.xqhs.graphs.graph.Edge;
 
@@ -21,12 +21,12 @@ import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import giwi.org.networkgraph.beans.ArcUtils;
-import giwi.org.networkgraph.beans.Dimension;
-import giwi.org.networkgraph.beans.NetworkGraph;
-import giwi.org.networkgraph.beans.Point2D;
-import giwi.org.networkgraph.beans.Vertex;
-import giwi.org.networkgraph.layout.FRLayout;
+import com.bramindra.kstpwithdiversity.beans.ArcUtils;
+import com.bramindra.kstpwithdiversity.beans.Dimension;
+import com.bramindra.kstpwithdiversity.beans.NetworkGraph;
+import com.bramindra.kstpwithdiversity.beans.Point2D;
+import com.bramindra.kstpwithdiversity.beans.Vertex;
+import com.bramindra.kstpwithdiversity.layout.FRLayout;
 
 /**
  * The type NetworkGraph surface view.

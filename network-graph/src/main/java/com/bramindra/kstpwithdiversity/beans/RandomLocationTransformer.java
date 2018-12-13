@@ -9,7 +9,7 @@
  * "license.txt" or
  * http://jung.sourceforge.net/license.txt for a description.
  */
-package giwi.org.networkgraph.beans;
+package com.bramindra.kstpwithdiversity.beans;
 
 
 import org.apache.commons.collections4.Transformer;

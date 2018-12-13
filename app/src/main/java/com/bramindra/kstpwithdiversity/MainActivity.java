@@ -1,4 +1,4 @@
-package org.giwi.networkgraph;
+package com.bramindra.kstpwithdiversity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -43,16 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-//                    Client client = new Client(editTextAddress.getText().toString(),8888);
-//                    client.run();
                 myClientTask = new MyClientTask(
                         editTextAddress.getText().toString(),
                         8888);
                 myClientTask.execute();
-
-//                    while(GraphActivity.graphString!=null){
-//                        startActivity(new Intent(getActivity(), GraphActivity.class));
-//                    }
             }
         };
 
@@ -70,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
         protected Void doInBackground(Void... arg0) {
 
             socket = null;
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 int bytesRead;
                 byte[] buffer = new byte[2048];
                 boolean end=false;
-                String resp = "";
+                StringBuilder resp = new StringBuilder();
 
                 out = new PrintWriter(socket.getOutputStream());
                 in = socket.getInputStream();
@@ -90,24 +94,15 @@ public class MainActivity extends AppCompatActivity {
                 while (!end) {
                     bytesRead = in.read(buffer);
                     byteArrayOutputStream.write(buffer, 0, bytesRead);
-                    resp += byteArrayOutputStream.toString("UTF-8");
+                    resp.append(byteArrayOutputStream.toString("UTF-8"));
                     if(resp.substring(resp.length()-14).equals("stopReadBuffer")){
                         end=true;
                     }
                 }
 
                 Intent myIntent = new Intent(MainActivity.this, GraphActivity.class);
-                myIntent.putExtra("graphString", resp);
-//                Bundle bundle =  new Bundle();
-//                bundle.putString("graphString", byteArrayOutputStream.toString("UTF-8"));
-//                FragmentManager fragmentManager = this.getSupportFragmentManager();
-//                FragmentTransaction ft = fragmentManager.beginTransaction();
-//                GraphFragment graphFragment = new GraphFragment();
-//                graphFragment.setArguments(bundle);
-//                ft.replace(R.id.main_frame, new GraphFragment());
-//                ft.commit();
+                myIntent.putExtra("graphString", resp.toString());
                 startActivity(myIntent);
-//                GraphFragment.graphString = byteArrayOutputStream.toString("UTF-8");
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();

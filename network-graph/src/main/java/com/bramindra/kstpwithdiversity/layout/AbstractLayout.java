@@ -1,4 +1,4 @@
-package giwi.org.networkgraph.layout;
+package com.bramindra.kstpwithdiversity.layout;
 
 import net.xqhs.graphs.graph.Node;
 
@@ -14,9 +14,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import giwi.org.networkgraph.beans.Dimension;
-import giwi.org.networkgraph.beans.NetworkGraph;
-import giwi.org.networkgraph.beans.Point2D;
+import com.bramindra.kstpwithdiversity.beans.Dimension;
+import com.bramindra.kstpwithdiversity.beans.NetworkGraph;
+import com.bramindra.kstpwithdiversity.beans.Point2D;
 
 /**
  * The type Abstract layout.

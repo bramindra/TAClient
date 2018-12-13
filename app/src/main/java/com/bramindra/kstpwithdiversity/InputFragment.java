@@ -1,4 +1,4 @@
-package org.giwi.networkgraph;
+package com.bramindra.kstpwithdiversity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,11 +143,9 @@ public class InputFragment extends Fragment {
 
                 @Override
                 public void onClick(View arg0) {
-//                    String src = srcSpinner.getText().toString().toUpperCase();
-//                    String dest = destination.getText().toString().toUpperCase();
                     final String thres = threshold.getText().toString();
                     final String ks = kstp.getText().toString();
-                    String tags = "";
+                    String tags;
                     tags = tagArrays.getText().toString();
 
                     final String finalTags = tags;
@@ -198,19 +195,19 @@ public class InputFragment extends Fragment {
                                         int bytesRead;
                                         byte[] buffer = new byte[2048];
                                         boolean end=false;
-                                        String resp = "";
+                                        StringBuilder resp = new StringBuilder();
 
                                         while (!end) {
                                             bytesRead = MainActivity.in.read(buffer);
                                             byteArrayOutputStream.write(buffer, 0, bytesRead);
-                                            resp += byteArrayOutputStream.toString("UTF-8");
+                                            resp.append(byteArrayOutputStream.toString("UTF-8"));
                                             if(resp.substring(resp.length()-14).equals("stopReadBuffer")){
                                                 end=true;
                                             }
                                         }
 
                                         Intent intent = new Intent(getActivity(), AnswerActivity.class);
-                                        intent.putExtra("listAnswer", resp);
+                                        intent.putExtra("listAnswer", resp.toString());
                                         startActivity(intent);
 
                                     } catch (IOException e) {

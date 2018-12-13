@@ -1,4 +1,4 @@
-package org.giwi.networkgraph;
+package com.bramindra.kstpwithdiversity;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,33 +7,28 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class GraphActivity extends AppCompatActivity {
 
     private Bundle bundle;
-//    private HomeFragment homeFragment;
     private InputFragment inputFragment;
     private GraphFragment graphFragment;
-//    private AnswerFragment answerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toast.makeText(getApplicationContext(), "Connected to server", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_graph);
 
 
-        FrameLayout mMainFrame = findViewById(R.id.main_frame);
         BottomNavigationView mMainNav = findViewById(R.id.navigation);
 
         bundle = getIntent().getExtras();
         assert bundle != null;
 
-//        homeFragment = new HomeFragment();
         inputFragment = new InputFragment();
         graphFragment = new GraphFragment();
-//        answerFragment = new AnswerFragment();
 
         setFragment(graphFragment, bundle);
 
@@ -57,8 +52,9 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), "asas", Toast.LENGTH_SHORT).show();
         MainActivity.myClientTask.cancel(true);
+        MainActivity.myClientTask.onCancelled();
+        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
         finish();
     }
 

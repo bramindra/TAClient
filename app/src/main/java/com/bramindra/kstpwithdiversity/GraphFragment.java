@@ -1,4 +1,4 @@
-package org.giwi.networkgraph;
+package com.bramindra.kstpwithdiversity;
 
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
@@ -11,18 +11,14 @@ import android.support.v4.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import giwi.org.networkgraph.GraphSurfaceView;
-import giwi.org.networkgraph.beans.NetworkGraph;
-import giwi.org.networkgraph.beans.Vertex;
+import com.bramindra.kstpwithdiversity.beans.NetworkGraph;
+import com.bramindra.kstpwithdiversity.beans.Vertex;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class GraphFragment extends Fragment {
 
     public static String graphString;

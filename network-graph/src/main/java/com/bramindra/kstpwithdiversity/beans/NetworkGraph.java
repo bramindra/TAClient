@@ -1,4 +1,4 @@
-package giwi.org.networkgraph.beans;
+package com.bramindra.kstpwithdiversity.beans;
 
 import java.util.ArrayList;
 import java.util.List;

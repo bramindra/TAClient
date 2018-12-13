@@ -1,4 +1,4 @@
-package giwi.org.networkgraph.beans;
+package com.bramindra.kstpwithdiversity.beans;
 
 /**
  * The type Dimension.

@@ -1,4 +1,4 @@
-package giwi.org.networkgraph.layout;
+package com.bramindra.kstpwithdiversity.layout;
 
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
@@ -12,10 +12,10 @@ import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
-import giwi.org.networkgraph.beans.Dimension;
-import giwi.org.networkgraph.beans.NetworkGraph;
-import giwi.org.networkgraph.beans.Point2D;
-import giwi.org.networkgraph.beans.RandomLocationTransformer;
+import com.bramindra.kstpwithdiversity.beans.Dimension;
+import com.bramindra.kstpwithdiversity.beans.NetworkGraph;
+import com.bramindra.kstpwithdiversity.beans.Point2D;
+import com.bramindra.kstpwithdiversity.beans.RandomLocationTransformer;
 
 /**
  * The type FR layout.

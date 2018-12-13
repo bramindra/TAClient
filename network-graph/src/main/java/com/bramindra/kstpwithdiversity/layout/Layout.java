@@ -1,12 +1,12 @@
-package giwi.org.networkgraph.layout;
+package com.bramindra.kstpwithdiversity.layout;
 
 import net.xqhs.graphs.graph.Node;
 
 import org.apache.commons.collections4.Transformer;
 
-import giwi.org.networkgraph.beans.Dimension;
-import giwi.org.networkgraph.beans.NetworkGraph;
-import giwi.org.networkgraph.beans.Point2D;
+import com.bramindra.kstpwithdiversity.beans.Dimension;
+import com.bramindra.kstpwithdiversity.beans.NetworkGraph;
+import com.bramindra.kstpwithdiversity.beans.Point2D;
 
 /**
  * The interface Layout.

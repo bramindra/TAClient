@@ -1,4 +1,4 @@
-package giwi.org.networkgraph.beans;
+package com.bramindra.kstpwithdiversity.beans;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
