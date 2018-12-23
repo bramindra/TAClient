@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
                         end=true;
                     }
                 }
-
+                GraphActivity.graphString = resp.toString();
                 Intent myIntent = new Intent(MainActivity.this, GraphActivity.class);
-                myIntent.putExtra("graphString", resp.toString());
+//                myIntent.putExtra("graphString", resp.toString());
                 startActivity(myIntent);
 
             } catch (UnknownHostException e) {

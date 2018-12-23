@@ -11,9 +11,10 @@ import android.widget.Toast;
 
 public class GraphActivity extends AppCompatActivity {
 
-    private Bundle bundle;
+    public static String graphString;
     private InputFragment inputFragment;
     private GraphFragment graphFragment;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,8 @@ public class GraphActivity extends AppCompatActivity {
 
         BottomNavigationView mMainNav = findViewById(R.id.navigation);
 
-        bundle = getIntent().getExtras();
-        assert bundle != null;
+        bundle = new Bundle();
+        bundle.putString("graphString", graphString);
 
         inputFragment = new InputFragment();
         graphFragment = new GraphFragment();
