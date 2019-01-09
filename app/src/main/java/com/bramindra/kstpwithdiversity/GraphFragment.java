@@ -4,6 +4,8 @@ import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleNode;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -19,9 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+
 public class GraphFragment extends Fragment {
 
-    public static String graphString;
     public static ArrayList<String> vertexname;
 
     @Override
@@ -34,7 +36,8 @@ public class GraphFragment extends Fragment {
 
         Bundle bundle = getArguments();
         assert bundle != null;
-        graphString = bundle.getString("graphString");
+        SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.globalPreference, Context.MODE_PRIVATE);
+        String graphString = sharedPreferences.getString("graphString", "");
 
         ArrayList<String> cost = new ArrayList<>();
         ArrayList<String> vertex = new ArrayList<>();
@@ -43,6 +46,7 @@ public class GraphFragment extends Fragment {
         ArrayList<Node> nodes = new ArrayList<>();
         int i=0;
         while(true){
+            assert graphString != null;
             if(i<graphString.length()){
                 if(graphString.charAt(i)=='\''){
                     for(int j = i+1; j<graphString.length(); j++){

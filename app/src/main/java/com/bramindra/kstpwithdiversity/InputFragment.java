@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -29,11 +31,11 @@ public class InputFragment extends Fragment {
 
     private String src, dest;
     private Integer tagScale, distanceScale;
-    private boolean[] flag = {false, false, true};
+    private boolean[] flag = {false, false, false, true};
     private Spinner srcSpinner, destSpinner;
     private SeekBar tagDistanceSeek;
     private Switch tagSwitchs;
-    private EditText threshold, kstp, tagArrays;
+    private EditText threshold, kstp, tagArrays, spMultThresh;
     private TextView minSeekbar, maxSeekbar;
 
     @Override
@@ -47,6 +49,7 @@ public class InputFragment extends Fragment {
         destSpinner = view.findViewById(R.id.destInput);
         threshold = view.findViewById(R.id.thresholdInput);
         kstp = view.findViewById(R.id.jumlahstpInput);
+        spMultThresh = view.findViewById(R.id.et_spMultThresh);
         tagSwitchs = view.findViewById(R.id.tagSwitch);
         tagArrays = view.findViewById(R.id.tagArray);
         tagDistanceSeek = view.findViewById(R.id.tagDistanceSeekbar);
@@ -89,6 +92,7 @@ public class InputFragment extends Fragment {
         });
 
         tagSwitchs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
@@ -145,10 +149,8 @@ public class InputFragment extends Fragment {
                 public void onClick(View arg0) {
                     final String thres = threshold.getText().toString();
                     final String ks = kstp.getText().toString();
-                    String tags;
-                    tags = tagArrays.getText().toString();
-
-                    final String finalTags = tags;
+                    final String spMultThreshs = spMultThresh.getText().toString();
+                    String tags = null;
 
                     if(thres.equals("")){
                         flag[0]=false;
@@ -164,23 +166,33 @@ public class InputFragment extends Fragment {
                         flag[1]=true;
                     }
 
-                    if(tagSwitchs.isChecked()){
-                        if(tagArrays.getText().length()==0){
-                            flag[2]=false;
-                            tagArrays.setError("Tags are Required");
-                        }else {
-                            flag[2]=true;
-                        }
-                    }else {
+                    if(spMultThreshs.equals("")){
+                        flag[2]=false;
+                        spMultThresh.setError("SPMultThreshold is Required");
+                    }else{
                         flag[2]=true;
                     }
 
+                    if(tagSwitchs.isChecked()){
+                        if(tagArrays.getText().length()==0){
+                            flag[3]=false;
+                            tagArrays.setError("Tags are Required");
+                        }else {
+                            tags = tagArrays.getText().toString();
+                            flag[3]=true;
+                        }
+                    }else {
+                        tags = "[]";
+                        flag[3]=true;
+                    }
 
-                    if(flag[0] && flag[1] && flag[2]){
+
+                    if(flag[0] && flag[1] && flag[2] && flag[3]){
+                        final String finalTags = tags;
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                MainActivity.out.write(src + ", " + dest+ ", " + thres + ", " + ks + ", " + tagScale + ", " + distanceScale + "; " + finalTags);
+                                MainActivity.out.write(src + ", " + dest+ ", " + thres + ", " + ks + ", " + spMultThreshs + ", " + tagScale + ", " + distanceScale + "; " + finalTags +"stopReadBuffer");
                                 MainActivity.out.flush();
                             }
                         }).start();
@@ -205,9 +217,12 @@ public class InputFragment extends Fragment {
                                                 end=true;
                                             }
                                         }
-
                                         Intent intent = new Intent(getActivity(), AnswerActivity.class);
-                                        intent.putExtra("listAnswer", resp.toString());
+                                        SharedPreferences.Editor editor = Objects.requireNonNull(getActivity()).getSharedPreferences(MainActivity.globalPreference, Context.MODE_PRIVATE).edit();
+                                        editor.putString("listAnswer", resp.substring(0, resp.length()-14));
+                                        editor.apply();
+
+//                                        intent.putExtra("listAnswer", resp.toString());
                                         startActivity(intent);
 
                                     } catch (IOException e) {

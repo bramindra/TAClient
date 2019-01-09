@@ -1,5 +1,6 @@
 package com.bramindra.kstpwithdiversity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class GraphActivity extends AppCompatActivity {
 
-    public static String graphString;
     private InputFragment inputFragment;
     private GraphFragment graphFragment;
-    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +23,24 @@ public class GraphActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Connected to server", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_graph);
 
-
         BottomNavigationView mMainNav = findViewById(R.id.navigation);
-
-        bundle = new Bundle();
-        bundle.putString("graphString", graphString);
 
         inputFragment = new InputFragment();
         graphFragment = new GraphFragment();
 
-        setFragment(graphFragment, bundle);
+
+        setFragment(graphFragment);
 
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 if(menuItem.getItemId() == R.id.navigation_home){
-                    setFragment(graphFragment, bundle);
+                    setFragment(graphFragment);
                     return true;
                 }
                 else if(menuItem.getItemId() == R.id.navigation_input){
-                    setFragment(inputFragment, bundle);
+                    setFragment(inputFragment);
                     return true;
                 }
                 else{
@@ -51,17 +49,57 @@ public class GraphActivity extends AppCompatActivity {
             }
         });
     }
+//
+//    @Override
+//    public void onStop(){
+//        super.onStop();
+//        try {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    MainActivity.out.write("DisconnectedstopReadBuffer");
+//                    MainActivity.out.flush();
+//                }
+//            }).start();
+//            MainActivity.socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        MainActivity.myClientTask.cancel(true);
+//        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
+//    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        try {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.out.write("DisconnectedstopReadBuffer");
+                    MainActivity.out.flush();
+                }
+            }).start();
+            MainActivity.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MainActivity.myClientTask.cancel(true);
+        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
+    }
 
     public void onBackPressed() {
-        MainActivity.myClientTask.cancel(true);
-        MainActivity.myClientTask.onCancelled();
-        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
+//        super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+//        MainActivity.myClientTask.cancel(true);
+//        MainActivity.myClientTask.onCancelled();
+//        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
         finish();
     }
 
-    public void setFragment(Fragment fragment, Bundle bundle) {
+    public void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }

@@ -45,24 +45,24 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
         <!--<EditText-->
-            <!--android:id="@+id/srcInput"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Source"-->
-            <!--android:inputType="textPersonName" />-->
+        <!--android:id="@+id/srcInput"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:hint="Source"-->
+        <!--android:inputType="textPersonName" />-->
 
         <Spinner
             android:id="@+id/destInput"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
         <!--<EditText-->
-            <!--android:id="@+id/destInput"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Destination"-->
-            <!--android:inputType="textPersonName" />-->
+        <!--android:id="@+id/destInput"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:hint="Destination"-->
+        <!--android:inputType="textPersonName" />-->
 
         <EditText
             android:id="@+id/thresholdInput"
@@ -84,6 +84,16 @@
             android:autofillHints=""
             tools:targetApi="o" />
 
+        <EditText
+            android:id="@+id/et_spMultThresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="SPMultThreshold"
+            android:inputType="number"
+            tools:targetApi="o" />
+
         <Switch
             android:id="@+id/tagSwitch"
             android:layout_width="match_parent"
@@ -95,30 +105,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
-        <TextView
-            android:id="@+id/minSeekerValue"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="0.5"
-            android:gravity="left"
-            android:text="Tags Scale : 50"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/minSeekerValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="0.5"
+                android:gravity="left"
+                android:text="Tags Scale : 50"
+                android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/maxSeekerValue"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingBottom="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="0.5"
-            android:gravity="right"
-            android:text="Distance Scale : 50"
-            android:visibility="gone"
-            tools:ignore="RtlSymmetry" />
+            <TextView
+                android:id="@+id/maxSeekerValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="0.5"
+                android:gravity="right"
+                android:text="Distance Scale : 50"
+                android:visibility="gone"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
         <SeekBar

@@ -2,12 +2,14 @@ package com.bramindra.kstpwithdiversity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextAddress;
 
     public static MyClientTask myClientTask;
+    public static String globalPreference = "com.bramindra.kstpwithdiversity";
     public static Socket socket;
     public static InputStream in;
     public static PrintWriter out;
@@ -50,6 +53,66 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+//    @Override
+//    public void onStop(){
+//        super.onStop();
+//        try {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    out.write("DisconnectedstopReadBuffer");
+//                    out.flush();
+//                }
+//            }).start();
+//            socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        myClientTask.cancel(true);
+//        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onDestroy(){
+//        super.onDestroy();
+//        try {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    out.write("DisconnectedstopReadBuffer");
+//                    out.flush();
+//                }
+//            }).start();
+//            socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        myClientTask.cancel(true);
+//        Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
+//    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+            if(resultCode==RESULT_OK){
+                try {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            out.write("DisconnectedstopReadBuffer");
+                            out.flush();
+                        }
+                    }).start();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                myClientTask.cancel(true);
+                Toast.makeText(getApplicationContext(), "Disconnected from server", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @SuppressLint("StaticFieldLeak")
     public class MyClientTask extends AsyncTask<Void, Void, Void> {
@@ -67,6 +130,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onCancelled() {
             super.onCancelled();
             try {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        out.write("DisconnectedstopReadBuffer");
+                        out.flush();
+                    }
+                }).start();
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -76,10 +146,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            socket = null;
-
             try {
-                socket = new Socket(dstAddress, dstPort);
+                if (socket==null){
+                    socket = new Socket(dstAddress, dstPort);
+                }else {
+                    socket.close();
+                    socket = new Socket(dstAddress, dstPort);
+                }
 
                 ByteArrayOutputStream byteArrayOutputStream =
                         new ByteArrayOutputStream(2048);
@@ -99,10 +172,13 @@ public class MainActivity extends AppCompatActivity {
                         end=true;
                     }
                 }
-                GraphActivity.graphString = resp.toString();
+//                graphString = resp.toString();
                 Intent myIntent = new Intent(MainActivity.this, GraphActivity.class);
 //                myIntent.putExtra("graphString", resp.toString());
-                startActivity(myIntent);
+                SharedPreferences.Editor editor = getSharedPreferences(globalPreference, MODE_PRIVATE).edit();
+                editor.putString("graphString", resp.substring(0, resp.length()-14));
+                editor.apply();
+                startActivityForResult(myIntent, 1);
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();
