@@ -114,7 +114,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_weight="0.5"
                 android:gravity="left"
-                android:text="Tags Scale : 50"
+                android:text="Weight of Tags : 50"
                 android:visibility="gone"/>
 
             <TextView
@@ -126,7 +126,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_weight="0.5"
                 android:gravity="right"
-                android:text="Distance Scale : 50"
+                android:text="Weight of Path: 50"
                 android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
